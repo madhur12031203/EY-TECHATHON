@@ -1,62 +1,130 @@
-# Buyoh – AI-Powered Fashion Retail Experience
+# Buyoh - Retail Platform Landing Page
 
-Buyoh is an AI-powered fashion retail prototype designed for **Aditya Birla Fashion & Retail (ABFRL)**.  
-The platform demonstrates how conversational AI combined with human expertise can deliver personalized styling, improve customer engagement, and increase conversion rates in fashion retail.
+A modern, responsive landing page for Buyoh, a retail platform where retailers can sell different types of products to customers.
 
----
+## 🚀 Features
 
-## 🚀 Project Overview
+- **Modern UI/UX**: Beautiful, clean design with smooth animations
+- **Fully Responsive**: Works seamlessly on desktop, tablet, and mobile devices
+- **TypeScript**: Type-safe code for better development experience
+- **Component-Based**: Modular architecture for easy maintenance
+- **Fast Build**: Webpack-powered bundling with hot module replacement
 
-Fashion shoppers often struggle with discovery, styling decisions, and inconsistent support across channels. Buyoh addresses these challenges by providing:
+## 📁 Project Structure
 
-- AI-driven styling assistance
-- Context-aware product recommendations
-- Seamless browsing across fashion categories
-- A scalable foundation for human advisor handoff
+```
+buyoh/
+├── index.html                 # Main HTML entry point
+├── src/
+│   ├── index.ts              # TypeScript entry point
+│   ├── components/
+│   │   ├── Header.ts         # Navigation header component
+│   │   ├── Hero.ts           # Hero section component
+│   │   ├── ProductShowcase.ts # Products showcase component
+│   │   ├── Features.ts       # Features section component
+│   │   ├── CTA.ts            # Call-to-action component
+│   │   └── Footer.ts         # Footer component
+│   └── styles.css            # Main stylesheet
+├── package.json               # Dependencies and scripts
+├── tsconfig.json              # TypeScript configuration
+├── webpack.config.js          # Build configuration
+└── README.md                  # Project documentation
+```
 
-This project was developed as part of **EY Techathon 6.0** and focuses on user experience, system design, and business impact.
+## 🛠️ Installation & Setup
 
----
+1. **Install dependencies:**
+   ```bash
+   npm install
+   ```
 
-## ✨ Key Features
+2. **Run development server:**
+   ```bash
+   npm run dev
+   ```
+   This will start the development server at `http://localhost:3000`
 
-- **Shop by Category**
-  - Men’s, Women’s, and Kids’ fashion
-  - Occasion-based discovery (Wedding, Casual, Workwear, Festive)
+3. **Build for production:**
+   ```bash
+   npm run build
+   ```
+   The optimized build will be in the `dist/` folder
 
-- **Fashion Product Catalog**
-  - Filter by category, occasion, price range, size, and clothing type
-  - Clean, premium product grid UI
+## 📦 Available Scripts
 
-- **AI Styling Assistant (Mock)**
-  - Conversational interface for styling guidance
-  - Mock questions and answers to simulate AI behavior
-  - Product suggestions based on available catalog
+- `npm run dev` - Start development server with hot reload
+- `npm run build` - Build for production
+- `npm start` - Start development server and open browser
 
-- **Human-in-the-Loop Design**
-  - Architecture supports seamless escalation to human fashion advisors
-  - Context preservation across interactions (demo-ready)
+## 🎨 Components
 
----
+### Header
+- Sticky navigation bar
+- Logo and brand name
+- Navigation menu
+- Sign in button
 
-## 🧠 Tech Stack
+### Hero
+- Eye-catching gradient background
+- Main headline with call-to-action
+- Statistics display
+- Multiple CTA buttons
 
-**Frontend**
-- React
-- Tailwind CSS
-- Lucide Icons
+### Product Showcase
+- 6 product categories:
+  - Electronics
+  - Fashion & Apparel
+  - Home & Living
+  - Health & Beauty
+  - Sports & Fitness
+  - Food & Beverages
 
-**Backend (Planned / Architecture Level)**
-- FastAPI (Python)
-- LangGraph for multi-agent orchestration
+### Features
+- 6 key features:
+  - Fast Delivery
+  - Best Prices
+  - Secure Shopping
+  - Quality Assured
+  - Easy Returns
+  - 24/7 Support
 
-**Integrations (Planned)**
-- Conversational AI (LLM-based)
-- Voice & messaging integration (e.g., Twilio)
+### CTA (Call to Action)
+- Prominent section to encourage action
+- Multiple engagement buttons
 
-> ⚠️ Note: This repository represents a **frontend-focused prototype**. Backend and AI responses are currently mocked for demonstration purposes.
+### Footer
+- Company information
+- Navigation links
+- Social media links
+- Legal information
 
----
+## 🎨 Design Features
 
-## 📐 Project Structure (High-Level)
+- Modern gradient backgrounds
+- Smooth hover animations
+- Card-based layouts
+- Responsive grid systems
+- Beautiful typography
+- Professional color scheme
+
+## 📱 Responsive Breakpoints
+
+- Desktop: 1200px and above
+- Tablet: 768px - 1199px
+- Mobile: Below 768px
+
+## 🛠️ Technologies Used
+
+- **TypeScript** - Type-safe JavaScript
+- **Webpack** - Module bundler
+- **CSS3** - Modern styling with custom properties
+- **HTML5** - Semantic markup
+
+## 📄 License
+
+MIT License
+
+## 👥 Contributors
+
+Built for Buyoh retail platform
 

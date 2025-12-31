@@ -1,0 +1,50 @@
+{
+  "name": "buyoh-backend",
+  "version": "1.0.0",
+  "description": "Backend API for Buyoh AI Agent System",
+  "main": "dist/app.js",
+  "scripts": {
+    "build": "tsc",
+    "dev": "ts-node-dev --respawn --transpile-only src/app.ts",
+    "start": "node dist/app.js",
+    "migrate": "node dist/src/db/migrate.js",
+    "mcp-server": "ts-node-dev --respawn --transpile-only mcp-server/index.ts"
+  },
+  "keywords": [
+    "ai",
+    "langchain",
+    "langgraph",
+    "mcp",
+    "retail"
+  ],
+  "author": "",
+  "license": "MIT",
+  "dependencies": {
+    "@langchain/core": "0.3.15",
+    "@langchain/google-genai": "0.1.2",
+    "@langchain/langgraph": "0.2.19",
+    "@langchain/openai": "0.3.11",
+    "@modelcontextprotocol/sdk": "0.5.0",
+    "bcryptjs": "^2.4.3",
+    "cors": "^2.8.5",
+    "dotenv": "^16.3.1",
+    "express": "^4.18.2",
+    "helmet": "^7.1.0",
+    "pg": "^8.11.3",
+    "twilio": "^4.20.0",
+    "uuid": "^9.0.1",
+    "winston": "^3.11.0",
+    "zod": "^3.22.4"
+  },
+  "devDependencies": {
+    "@types/cors": "^2.8.17",
+    "@types/express": "^4.17.21",
+    "@types/node": "^20.10.0",
+    "@types/bcryptjs": "^2.4.6",
+    "@types/pg": "^8.10.9",
+    "@types/uuid": "^9.0.7",
+    "ts-node": "^10.9.2",
+    "ts-node-dev": "^2.0.0",
+    "typescript": "^5.9.3"
+  }
+}
