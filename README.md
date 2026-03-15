@@ -1,4 +1,4 @@
-# Buyoh - Retail Platform Landing Page
+## Buyoh - Retail Platform Landing Page
 
 A modern, responsive landing page for Buyoh, a retail platform where retailers can sell different types of products to customers.
 
