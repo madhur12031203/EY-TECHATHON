@@ -1,6 +1,8 @@
 -- Buyoh AI Agent System Database Schema
 -- PostgreSQL Database Schema
 
+CREATE EXTENSION IF NOT EXISTS pgcrypto;
+
 -- Users table
 CREATE TABLE IF NOT EXISTS users (
     id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
@@ -177,3 +179,45 @@ CREATE INDEX IF NOT EXISTS idx_messages_created_at ON messages(created_at);
 -- Full-text search index for products (optional, for better search)
 CREATE INDEX IF NOT EXISTS idx_products_search ON products USING gin(to_tsvector('english', name || ' ' || COALESCE(description, '')));
 
+-- Realistic seed catalog for local demos and fresh environments.
+INSERT INTO products (id, sku, name, description, category, attributes, price, brand, image_url)
+VALUES
+('11111111-1111-4111-8111-111111111111', 'FAS-MEN-SHIRT-WHITE-001', 'Classic White Oxford Shirt', 'Breathable cotton shirt for office, interviews, and smart casual styling.', 'fashion', '{"audience":"Men","occasion":"Workwear","type":"Shirts","sizes":["S","M","L","XL"],"colors":["White"],"material":"Cotton"}', 1299, 'Buyoh Studio', 'https://images.unsplash.com/photo-1602810318383-e386cc2a3ccf?w=600&h=800&fit=crop'),
+('22222222-2222-4222-8222-222222222222', 'FAS-WOM-DRESS-SILK-002', 'Elegant Silk Midi Dress', 'Occasion-ready silk blend dress with a clean drape and refined finish.', 'fashion', '{"audience":"Women","occasion":"Wedding","type":"Dresses","sizes":["S","M","L"],"colors":["Rose","Wine"],"material":"Silk blend"}', 2899, 'Aurelia Mode', 'https://images.unsplash.com/photo-1595777457583-95e059d581b8?w=600&h=800&fit=crop'),
+('33333333-3333-4333-8333-333333333333', 'FAS-MEN-JACKET-DENIM-003', 'Casual Denim Jacket', 'Mid-weight denim jacket for layered everyday outfits.', 'fashion', '{"audience":"Men","occasion":"Casual","type":"Jackets","sizes":["M","L","XL"],"colors":["Blue"],"material":"Denim"}', 2499, 'Urban Loom', 'https://images.unsplash.com/photo-1551028719-00167b16eac5?w=600&h=800&fit=crop'),
+('44444444-4444-4444-8444-444444444444', 'FAS-WOM-KURTA-FESTIVE-004', 'Festive Kurta Set', 'Printed kurta set with comfortable trousers for family events and festivals.', 'fashion', '{"audience":"Women","occasion":"Festive","type":"Ethnic Wear","sizes":["S","M","L","XL"],"colors":["Mustard","Maroon"],"material":"Viscose"}', 3499, 'Riwaaz', 'https://images.unsplash.com/photo-1610030469983-98e550d6193c?w=600&h=800&fit=crop'),
+('55555555-5555-4555-8555-555555555555', 'FAS-MEN-BLAZER-NAVY-005', 'Premium Navy Blazer', 'Structured blazer for meetings, receptions, and polished evening looks.', 'fashion', '{"audience":"Men","occasion":"Workwear","type":"Blazers","sizes":["M","L","XL"],"colors":["Navy"],"material":"Poly-viscose"}', 4999, 'Boardroom', 'https://images.unsplash.com/photo-1507679799987-c73779587ccf?w=600&h=800&fit=crop'),
+('66666666-6666-4666-8666-666666666666', 'FAS-WOM-DRESS-FLORAL-006', 'Summer Floral Dress', 'Lightweight floral dress for brunches, travel, and weekend plans.', 'fashion', '{"audience":"Women","occasion":"Casual","type":"Dresses","sizes":["S","M","L"],"colors":["Floral"],"material":"Rayon"}', 1799, 'Mysa', 'https://images.unsplash.com/photo-1572804013309-59a88b7e92f1?w=600&h=800&fit=crop'),
+('77777777-7777-4777-8777-777777777777', 'FAS-UNI-TEE-COTTON-007', 'Soft Cotton T-Shirt', 'Everyday cotton crew neck t-shirt with a relaxed fit.', 'fashion', '{"audience":"Unisex","occasion":"Casual","type":"T-Shirts","sizes":["S","M","L","XL"],"colors":["Black","White","Olive"],"material":"Cotton"}', 699, 'DailyForm', 'https://images.unsplash.com/photo-1521572163474-6864f9cf17ab?w=600&h=800&fit=crop'),
+('88888888-8888-4888-8888-888888888888', 'FAS-WOM-SAREE-DESIGNER-008', 'Designer Occasion Saree', 'Elegant saree with a soft fall, suitable for weddings and receptions.', 'fashion', '{"audience":"Women","occasion":"Wedding","type":"Ethnic Wear","sizes":["One Size"],"colors":["Emerald","Gold"],"material":"Chiffon blend"}', 5999, 'Riwaaz', 'https://images.unsplash.com/photo-1617627143750-d86bc21e42bb?w=600&h=800&fit=crop'),
+('99999999-9999-4999-8999-999999999999', 'FAS-KID-DRESS-PARTY-009', 'Kids Party Dress', 'Comfortable party dress for celebrations and school events.', 'fashion', '{"audience":"Kids","occasion":"Festive","type":"Dresses","sizes":["2-3Y","4-5Y","6-7Y"],"colors":["Pink","Lilac"],"material":"Cotton blend"}', 1299, 'LittleJoy', 'https://images.unsplash.com/photo-1518831959646-742c3a14ebf7?w=600&h=800&fit=crop'),
+('aaaaaaaa-aaaa-4aaa-8aaa-aaaaaaaaaaaa', 'FAS-MEN-TROUSER-FORMAL-010', 'Formal Stretch Trousers', 'Slim formal trousers with stretch for all-day office comfort.', 'fashion', '{"audience":"Men","occasion":"Workwear","type":"Bottoms","sizes":["30","32","34","36"],"colors":["Charcoal","Navy"],"material":"Cotton stretch"}', 1899, 'Boardroom', 'https://images.unsplash.com/photo-1473966968600-fa801b869a1a?w=600&h=800&fit=crop'),
+('bbbbbbbb-bbbb-4bbb-8bbb-bbbbbbbbbbbb', 'FAS-WOM-PALAZZO-CASUAL-011', 'Casual Palazzo Pants', 'Easy-fit palazzo pants for everyday ethnic and fusion outfits.', 'fashion', '{"audience":"Women","occasion":"Casual","type":"Bottoms","sizes":["S","M","L","XL"],"colors":["Beige","Black"],"material":"Viscose"}', 1199, 'Mysa', 'https://images.unsplash.com/photo-1594633312681-425c7b97ccd1?w=600&h=800&fit=crop'),
+('cccccccc-cccc-4ccc-8ccc-cccccccccccc', 'FAS-KID-SHIRT-CASUAL-012', 'Kids Casual Shirt', 'Soft printed shirt for play dates, outings, and family weekends.', 'fashion', '{"audience":"Kids","occasion":"Casual","type":"Shirts","sizes":["2-3Y","4-5Y","6-7Y","8-9Y"],"colors":["Blue","White"],"material":"Cotton"}', 799, 'LittleJoy', 'https://images.unsplash.com/photo-1503944583220-79d8926ad5e2?w=600&h=800&fit=crop')
+ON CONFLICT (sku) DO UPDATE SET
+  name = EXCLUDED.name,
+  description = EXCLUDED.description,
+  attributes = EXCLUDED.attributes,
+  price = EXCLUDED.price,
+  brand = EXCLUDED.brand,
+  image_url = EXCLUDED.image_url,
+  updated_at = NOW();
+
+INSERT INTO product_inventory (product_id, location_id, quantity, safety_stock)
+VALUES
+('11111111-1111-4111-8111-111111111111', 'blr-warehouse', 42, 5),
+('22222222-2222-4222-8222-222222222222', 'blr-warehouse', 21, 4),
+('33333333-3333-4333-8333-333333333333', 'blr-warehouse', 18, 3),
+('44444444-4444-4444-8444-444444444444', 'blr-warehouse', 30, 6),
+('55555555-5555-4555-8555-555555555555', 'blr-warehouse', 12, 2),
+('66666666-6666-4666-8666-666666666666', 'blr-warehouse', 33, 5),
+('77777777-7777-4777-8777-777777777777', 'blr-warehouse', 80, 10),
+('88888888-8888-4888-8888-888888888888', 'blr-warehouse', 9, 2),
+('99999999-9999-4999-8999-999999999999', 'blr-warehouse', 24, 4),
+('aaaaaaaa-aaaa-4aaa-8aaa-aaaaaaaaaaaa', 'blr-warehouse', 38, 5),
+('bbbbbbbb-bbbb-4bbb-8bbb-bbbbbbbbbbbb', 'blr-warehouse', 45, 5),
+('cccccccc-cccc-4ccc-8ccc-cccccccccccc', 'blr-warehouse', 52, 8)
+ON CONFLICT (product_id, location_id) DO UPDATE SET
+  quantity = EXCLUDED.quantity,
+  safety_stock = EXCLUDED.safety_stock,
+  updated_at = NOW();

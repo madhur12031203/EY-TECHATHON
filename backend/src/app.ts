@@ -8,6 +8,7 @@ import { rateLimitMiddleware } from './middleware/guardrails';
 import authRoutes from './routes/auth';
 import chatRoutes from './routes/chat';
 import voiceRoutes from './routes/voice';
+import commerceRoutes from './routes/commerce';
 
 const app = express();
 
@@ -52,6 +53,7 @@ app.get('/api/info', (req, res) => {
 app.use('/api', authRoutes);
 app.use('/api', chatRoutes);
 app.use('/api', voiceRoutes);
+app.use('/api', commerceRoutes);
 
 // Error handling middleware
 app.use((err: Error, req: express.Request, res: express.Response, next: express.NextFunction) => {
@@ -66,4 +68,3 @@ app.listen(PORT, () => {
 });
 
 export default app;
-

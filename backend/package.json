@@ -2,11 +2,11 @@
   "name": "buyoh-backend",
   "version": "1.0.0",
   "description": "Backend API for Buyoh AI Agent System",
-  "main": "dist/app.js",
+  "main": "dist/src/app.js",
   "scripts": {
     "build": "tsc",
     "dev": "ts-node-dev --respawn --transpile-only src/app.ts",
-    "start": "node dist/app.js",
+    "start": "node dist/src/app.js",
     "migrate": "node dist/src/db/migrate.js",
     "mcp-server": "ts-node-dev --respawn --transpile-only mcp-server/index.ts"
   },

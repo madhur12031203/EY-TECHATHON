@@ -21,10 +21,51 @@ export interface ChatResponse {
   response: string;
   conversation_id: string;
   session_id: string;
+  fallback?: boolean;
   state?: {
     intent?: string;
     category?: string;
     active_worker?: string;
+  };
+}
+
+export interface Product {
+  id: string;
+  sku: string;
+  name: string;
+  description: string;
+  category: 'fashion';
+  brand: string;
+  price: number;
+  image_url: string;
+  attributes: {
+    audience: 'Men' | 'Women' | 'Kids' | 'Unisex';
+    occasion: 'Wedding' | 'Casual' | 'Workwear' | 'Festive';
+    type: string;
+    sizes: string[];
+    colors: string[];
+    material: string;
+  };
+}
+
+export interface CartItem {
+  product_id: string;
+  sku: string;
+  name: string;
+  price: number;
+  quantity: number;
+  image_url: string;
+  size?: string;
+}
+
+export interface Cart {
+  id: string;
+  items: CartItem[];
+  status: 'active' | 'completed';
+  totals: {
+    subtotal: number;
+    shipping: number;
+    total: number;
   };
 }
 
@@ -99,3 +140,70 @@ export async function getChatHistory(conversationId: string): Promise<ChatMessag
   }));
 }
 
+export async function getProducts(filters: Record<string, string | number | undefined> = {}): Promise<Product[]> {
+  const params = new URLSearchParams();
+  Object.entries(filters).forEach(([key, value]) => {
+    if (value !== undefined && value !== '') {
+      params.set(key, String(value));
+    }
+  });
+
+  const response = await fetch(`${API_BASE_URL}/products${params.toString() ? `?${params}` : ''}`);
+  if (!response.ok) {
+    throw new Error('Failed to load products');
+  }
+
+  const data = await response.json();
+  return data.products;
+}
+
+export async function addCartItem(
+  productId: string,
+  quantity: number = 1,
+  size?: string,
+  cartId?: string
+): Promise<Cart> {
+  const response = await fetch(`${API_BASE_URL}/cart/items`, {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({
+      product_id: productId,
+      quantity,
+      size,
+      cart_id: cartId,
+    }),
+  });
+
+  if (!response.ok) {
+    throw new Error('Failed to add product to cart');
+  }
+
+  const data = await response.json();
+  return data.cart;
+}
+
+export async function checkoutCart(
+  cartId: string,
+  customerEmail?: string
+): Promise<{ id: string; status: string; total_amount: number }> {
+  const response = await fetch(`${API_BASE_URL}/orders/checkout`, {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({
+      cart_id: cartId,
+      customer_email: customerEmail || undefined,
+      shipping_address: {
+        city: 'Bengaluru',
+        country: 'India',
+      },
+    }),
+  });
+
+  if (!response.ok) {
+    const error = await response.json().catch(() => ({ error: 'Checkout failed' }));
+    throw new Error(error.error || 'Checkout failed');
+  }
+
+  const data = await response.json();
+  return data.order;
+}

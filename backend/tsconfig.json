@@ -11,6 +11,10 @@
     "forceConsistentCasingInFileNames": true,
     "resolveJsonModule": true,
     "moduleResolution": "node",
+    "baseUrl": ".",
+    "paths": {
+      "@modelcontextprotocol/sdk/src/*": ["node_modules/@modelcontextprotocol/sdk/dist/*"]
+    },
     "allowSyntheticDefaultImports": true,
     "declaration": true,
     "declarationMap": true,

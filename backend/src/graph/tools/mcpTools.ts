@@ -9,7 +9,7 @@ import { logger } from '../../config/logger';
 
 // Tool schemas
 const QueryProductsSchema = z.object({
-  category: z.enum(['home_living', 'electronics']).optional(),
+  category: z.enum(['fashion']).optional(),
   price_min: z.number().optional(),
   price_max: z.number().optional(),
   search_query: z.string().optional(),
@@ -73,7 +73,7 @@ async function callMCPTool(toolName: string, args: any): Promise<string> {
 // Create LangChain tools from MCP tools
 export const queryProductsTool = new DynamicStructuredTool({
   name: 'db_queryProducts',
-  description: 'Query products from the database. Supports filtering by category (home_living or electronics), price range, and search query. Only returns products from home_living or electronics categories.',
+  description: 'Query products from the database. Supports filtering by fashion category, price range, and search query. Only returns fashion products.',
   schema: QueryProductsSchema,
   func: async (input) => {
     const result = await callMCPTool('db_queryProducts', input);

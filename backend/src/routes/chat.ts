@@ -109,6 +109,23 @@ async function saveConversationState(
 // POST /api/chat - Main chat endpoint
 router.post('/chat', validateChatRequest, async (req: Request, res: Response) => {
   const startTime = Date.now();
+  const fallbackChatResponse = (message: string) => {
+    const lowerMessage = message.toLowerCase();
+    if (lowerMessage.includes('wedding')) {
+      return 'I can help with wedding styling. Try elegant ethnic wear, dresses, blazers, or coordinated accessories based on your budget and preferred colors.';
+    }
+    if (lowerMessage.includes('work') || lowerMessage.includes('office') || lowerMessage.includes('formal')) {
+      return 'For workwear, I recommend crisp shirts, tailored trousers, blazers, and comfortable polished basics. Tell me your budget and size for sharper picks.';
+    }
+    if (lowerMessage.includes('casual') || lowerMessage.includes('everyday')) {
+      return 'For casual outfits, go for relaxed shirts, denim layers, cotton tees, dresses, or palazzo pants. Share your style and budget and I will narrow it down.';
+    }
+    if (lowerMessage.includes('ethnic') || lowerMessage.includes('kurta') || lowerMessage.includes('saree')) {
+      return 'For ethnic wear, kurtas, sarees, and festive sets are strong options. Tell me the occasion and price range and I can guide the selection.';
+    }
+    return 'I can help you find fashion products by occasion, style, size, or budget. Tell me what you are shopping for and I will suggest suitable options.';
+  };
+
   try {
     const { user_id, session_id, channel = 'chat', message } = req.body;
     const traceId = req.headers['x-trace-id'] as string || uuidv4();
@@ -118,12 +135,16 @@ router.post('/chat', validateChatRequest, async (req: Request, res: Response) =>
     // Get or create conversation
     let conversationId: string | undefined;
     if (session_id) {
-      const convResult = await pool.query(
-        'SELECT id FROM conversations WHERE session_id = $1 ORDER BY started_at DESC LIMIT 1',
-        [session_id]
-      );
-      if (convResult.rows.length > 0) {
-        conversationId = convResult.rows[0].id;
+      try {
+        const convResult = await pool.query(
+          'SELECT id FROM conversations WHERE session_id = $1 ORDER BY started_at DESC LIMIT 1',
+          [session_id]
+        );
+        if (convResult.rows.length > 0) {
+          conversationId = convResult.rows[0].id;
+        }
+      } catch (error) {
+        logger.error('Error finding conversation by session, continuing without persisted history:', error);
       }
     }
 
@@ -221,6 +242,25 @@ router.post('/chat', validateChatRequest, async (req: Request, res: Response) =>
       duration: `${duration}ms`
     });
     
+    if (
+      error.message === 'Graph execution timeout' ||
+      error.message?.includes('quota') ||
+      error.message?.includes('model') ||
+      error.message?.includes('API key')
+    ) {
+      return res.json({
+        response: fallbackChatResponse(req.body.message || ''),
+        conversation_id: undefined,
+        session_id: req.body.session_id,
+        state: {
+          intent: 'browse',
+          category: 'fashion',
+          active_worker: 'fallback',
+        },
+        fallback: true,
+      });
+    }
+
     // Provide more helpful error messages
     let errorMessage = 'Internal server error';
     if (error.message === 'Graph execution timeout') {
