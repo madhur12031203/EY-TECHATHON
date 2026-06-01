@@ -1,130 +1,186 @@
-## Buyoh - Retail Platform Landing Page
+# Buyoh AI
 
-A modern, responsive landing page for Buyoh, a retail platform where retailers can sell different types of products to customers.
+Buyoh AI is an AI-assisted fashion commerce prototype. It combines a React storefront, a connected styling assistant, product discovery, cart actions, and demo checkout with an Express/TypeScript backend.
 
-## 🚀 Features
+The app is built for a real-world retail problem: helping shoppers find occasion-based outfits, check relevant catalog items, add products to cart, and complete a simple order flow from one assistant-driven experience.
 
-- **Modern UI/UX**: Beautiful, clean design with smooth animations
-- **Fully Responsive**: Works seamlessly on desktop, tablet, and mobile devices
-- **TypeScript**: Type-safe code for better development experience
-- **Component-Based**: Modular architecture for easy maintenance
-- **Fast Build**: Webpack-powered bundling with hot module replacement
+## Features
 
-## 📁 Project Structure
+- AI styling assistant for fashion shopping prompts
+- Real product API with seeded fashion catalog
+- Product filters by audience, occasion, type, size, and price
+- Add-to-cart flow from recommendations and product listing
+- Demo checkout/order confirmation
+- Backend fallback catalog when PostgreSQL is not running
+- Chat fallback response when the LLM provider is unavailable
+- TypeScript frontend and backend
 
+## Tech Stack
+
+- React 19
+- TypeScript
+- Webpack
+- Tailwind CSS
+- Express.js
+- PostgreSQL
+- LangChain / LangGraph
+- Zod validation
+
+## Project Structure
+
+```text
+EY-TECHATHON/
+  src/
+    api/client.ts
+    components/
+      BuyohAI.tsx
+      FashionCategoryPage.tsx
+      SignIn.tsx
+      ...
+  backend/
+    src/
+      app.ts
+      data/fashionCatalog.ts
+      db/schema.sql
+      routes/
+        auth.ts
+        chat.ts
+        commerce.ts
+        voice.ts
+      graph/
+        ...
+  package.json
+  webpack.config.js
 ```
-buyoh/
-├── index.html                 # Main HTML entry point
-├── src/
-│   ├── index.ts              # TypeScript entry point
-│   ├── components/
-│   │   ├── Header.ts         # Navigation header component
-│   │   ├── Hero.ts           # Hero section component
-│   │   ├── ProductShowcase.ts # Products showcase component
-│   │   ├── Features.ts       # Features section component
-│   │   ├── CTA.ts            # Call-to-action component
-│   │   └── Footer.ts         # Footer component
-│   └── styles.css            # Main stylesheet
-├── package.json               # Dependencies and scripts
-├── tsconfig.json              # TypeScript configuration
-├── webpack.config.js          # Build configuration
-└── README.md                  # Project documentation
+
+## Run Locally
+
+Install frontend dependencies:
+
+```powershell
+cd D:\Ey\EY-TECHATHON
+npm install
 ```
 
-## 🛠️ Installation & Setup
+Install backend dependencies:
 
-1. **Install dependencies:**
-   ```bash
-   npm install
-   ```
+```powershell
+cd D:\Ey\EY-TECHATHON\backend
+npm install
+```
 
-2. **Run development server:**
-   ```bash
-   npm run dev
-   ```
-   This will start the development server at `http://localhost:3000`
+Start the backend on port `3001`:
 
-3. **Build for production:**
-   ```bash
-   npm run build
-   ```
-   The optimized build will be in the `dist/` folder
+```powershell
+cd D:\Ey\EY-TECHATHON\backend
+npm run build
+$env:PORT="3001"
+npm start
+```
 
-## 📦 Available Scripts
+Start the frontend:
 
-- `npm run dev` - Start development server with hot reload
-- `npm run build` - Build for production
-- `npm start` - Start development server and open browser
+```powershell
+cd D:\Ey\EY-TECHATHON
+npm run dev
+```
 
-## 🎨 Components
+Open:
 
-### Header
-- Sticky navigation bar
-- Logo and brand name
-- Navigation menu
-- Sign in button
+```text
+http://localhost:3000
+```
 
-### Hero
-- Eye-catching gradient background
-- Main headline with call-to-action
-- Statistics display
-- Multiple CTA buttons
+AI shopping page:
 
-### Product Showcase
-- 6 product categories:
-  - Electronics
-  - Fashion & Apparel
-  - Home & Living
-  - Health & Beauty
-  - Sports & Fitness
-  - Food & Beverages
+```text
+http://localhost:3000/#/chat
+```
 
-### Features
-- 6 key features:
-  - Fast Delivery
-  - Best Prices
-  - Secure Shopping
-  - Quality Assured
-  - Easy Returns
-  - 24/7 Support
+Fashion catalog page:
 
-### CTA (Call to Action)
-- Prominent section to encourage action
-- Multiple engagement buttons
+```text
+http://localhost:3000/#/fashion
+```
 
-### Footer
-- Company information
-- Navigation links
-- Social media links
-- Legal information
+## Backend API
 
-## 🎨 Design Features
+Base URL:
 
-- Modern gradient backgrounds
-- Smooth hover animations
-- Card-based layouts
-- Responsive grid systems
-- Beautiful typography
-- Professional color scheme
+```text
+http://localhost:3001/api
+```
 
-## 📱 Responsive Breakpoints
+Main endpoints:
 
-- Desktop: 1200px and above
-- Tablet: 768px - 1199px
-- Mobile: Below 768px
+- `GET /products` - List fashion products
+- `GET /products/:id` - Get product details
+- `POST /cart/items` - Add a product to cart
+- `GET /cart/:cart_id` - Get cart
+- `POST /orders/checkout` - Create a demo order
+- `POST /chat` - Send chat message to assistant
+- `GET /chat/history/:conversation_id` - Get chat history
+- `POST /auth/register` - Register user
+- `POST /auth/login` - Login user
 
-## 🛠️ Technologies Used
+## Database Setup
 
-- **TypeScript** - Type-safe JavaScript
-- **Webpack** - Module bundler
-- **CSS3** - Modern styling with custom properties
-- **HTML5** - Semantic markup
+The backend can run without PostgreSQL by using the fallback catalog in `backend/src/data/fashionCatalog.ts`.
 
-## 📄 License
+For database-backed mode, start PostgreSQL, configure `backend/.env`, then run:
 
-MIT License
+```powershell
+cd D:\Ey\EY-TECHATHON\backend
+npm run migrate
+```
 
-## 👥 Contributors
+The migration creates the schema and seeds realistic fashion products into the `products` and `product_inventory` tables.
 
-Built for Buyoh retail platform
+## Environment Variables
 
+Create `backend/.env` using `backend/env.template` as a guide.
+
+Common values:
+
+```env
+PORT=3001
+DATABASE_URL=postgresql://user:password@localhost:5432/buyoh_db
+FRONTEND_URL=http://localhost:3000
+GOOGLE_API_KEY=your_key_here
+OPENAI_API_KEY=your_key_here
+JWT_SECRET=change-me
+SESSION_SECRET=change-me
+```
+
+Do not commit `.env` files or real API keys.
+
+## Useful Commands
+
+Frontend:
+
+```powershell
+npm run dev
+npm run build
+```
+
+Backend:
+
+```powershell
+npm run dev
+npm run build
+npm start
+npm run migrate
+```
+
+## Notes
+
+- If the AI provider or database is unavailable, the assistant still returns fallback shopping guidance and catalog matches.
+- If GitHub says this repository moved, update the remote:
+
+```powershell
+git remote set-url origin https://github.com/madhur12031203/buyoh-Ai.git
+```
+
+## License
+
+MIT
